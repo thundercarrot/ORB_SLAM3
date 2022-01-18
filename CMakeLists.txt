@@ -149,7 +149,8 @@ add_subdirectory(Thirdparty/g2o)
 target_link_libraries(${PROJECT_NAME} PRIVATE g2o)
 
 # Sophus
-target_include_directories(${PROJECT_NAME} PRIVATE
+# (include public because used in OS3 headers)
+target_include_directories(${PROJECT_NAME} PUBLIC
   ${PROJECT_SOURCE_DIR}/Thirdparty/Sophus)
 
 # hashlibpp
@@ -192,6 +193,7 @@ message(STATUS "Pangolin_LIBRARIES: ${Pangolin_LIBRARIES}")
 message(STATUS "Pangolin_VERSION: ${Pangolin_VERSION}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${Pangolin_LIBRARIES})
 
+# realsense2
 find_package(realsense2)
 if(realsense2_FOUND)
   message(STATUS "realsense2_VERSION: ${realsense2_VERSION}")

@@ -217,8 +217,10 @@ int main(int argc, char *argv[])
             else if(ni>0)
                 T = tframe-vTimestampsCam[seq][ni-1];
 
-            if(ttrack<T)
-                usleep((T-ttrack)*1e6); // 1e6
+            if (ttrack < T) {
+                long usec = static_cast<long>((T - ttrack) * 1e6);
+                std::this_thread::sleep_for(std::chrono::microseconds(usec));
+            }
         }
         if(seq < num_seq - 1)
         {

@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 
     cout << endl << "-------" << endl;
     cout << "Start processing sequence ..." << endl;
-    cout << "Images in the sequence: " << nImages << endl << endl;   
+    cout << "Images in the sequence: " << nImages << endl << endl;
 
     double t_track = 0.f;
     double t_resize = 0.f;
@@ -133,8 +133,10 @@ int main(int argc, char **argv)
         else if(ni>0)
             T = tframe-vTimestamps[ni-1];
 
-        if(ttrack<T)
-            usleep((T-ttrack)*1e6);
+        if (ttrack < T) {
+            long usec = static_cast<long>((T - ttrack) * 1e6);
+            std::this_thread::sleep_for(std::chrono::microseconds(usec));
+        }
     }
 
     // Stop all threads

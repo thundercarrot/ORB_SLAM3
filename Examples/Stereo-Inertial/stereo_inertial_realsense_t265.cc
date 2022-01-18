@@ -16,7 +16,9 @@
 * If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <signal.h>
+#ifndef _WIN32
+  #include <signal.h>
+#endif
 #include <stdlib.h>
 #include <iostream>
 #include <algorithm>
@@ -69,13 +71,13 @@ int main(int argc, char **argv)
     ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::IMU_STEREO, true, 0, file_name);
     float imageScale = SLAM.GetImageScale();
 
+#ifndef _WIN32
     struct sigaction sigIntHandler;
-
     sigIntHandler.sa_handler = exit_loop_handler;
     sigemptyset(&sigIntHandler.sa_mask);
     sigIntHandler.sa_flags = 0;
-
     sigaction(SIGINT, &sigIntHandler, NULL);
+#endif
     b_continue_session = true;
 
     double offset = 0; // ms

@@ -16,7 +16,9 @@
 * If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <signal.h>
+#ifndef _WIN32
+  #include <signal.h>
+#endif
 #include <stdlib.h>
 #include <iostream>
 #include <algorithm>
@@ -59,13 +61,13 @@ int main(int argc, char **argv)
         bFileName = true;
     }
 
+#ifndef _WIN32
     struct sigaction sigIntHandler;
-
     sigIntHandler.sa_handler = exit_loop_handler;
     sigemptyset(&sigIntHandler.sa_mask);
     sigIntHandler.sa_flags = 0;
-
     sigaction(SIGINT, &sigIntHandler, NULL);
+#endif
     b_continue_session = true;
 
 

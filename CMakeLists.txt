@@ -152,6 +152,20 @@ target_link_libraries(${PROJECT_NAME} PRIVATE g2o)
 target_include_directories(${PROJECT_NAME} PRIVATE
   ${PROJECT_SOURCE_DIR}/Thirdparty/Sophus)
 
+# hashlibpp
+add_subdirectory(Thirdparty/hashlibpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE hashlibpp)
+target_compile_definitions(${PROJECT_NAME} PRIVATE USE_HASHLIBPP)
+
+# OpenSSL is used only in System.cc for MD5 hash calculation
+# but because OpenSSL is not trivial to compile on windows, we can use hashlibpp instead.
+#set(OPENSSL_USE_STATIC_LIBS TRUE)
+#find_package(OpenSSL) # for crypto library
+#if(OpenSSL_FOUND)
+#  target_include_directories(${PROJECT_NAME} ${OPENSSL_INCLUDE_DIR})
+#  target_link_libraries(${PROJECT_NAME} ${OPENSSL_CRYPTO_LIBRARY})
+#endif()
+
 # OpenCV
 find_package(OpenCV 4.0 QUIET)
 if(NOT OpenCV_FOUND)
@@ -195,14 +209,6 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
   message(STATUS "BACKWARD_LIBRARIES: ${BACKWARD_LIBRARIES}")
   target_link_libraries(${PROJECT_NAME} PUBLIC Backward::Backward)
 endif()
-
-# TODO: OpenSSL is used only in System.cc #include <openssl/md5.h>, but then MD5 is never used.
-#set(OPENSSL_USE_STATIC_LIBS TRUE)
-#find_package(OpenSSL) # for crypto library
-#if(OpenSSL_FOUND)
-#  target_include_directories(${PROJECT_NAME} ${OPENSSL_INCLUDE_DIR})
-#  target_link_libraries(${PROJECT_NAME} ${OPENSSL_CRYPTO_LIBRARY})
-#endif()
 
 
 

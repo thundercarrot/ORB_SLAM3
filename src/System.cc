@@ -33,7 +33,11 @@
 #include <boost/archive/xml_iarchive.hpp>
 #include <boost/archive/xml_oarchive.hpp>
 
-#include <openssl/md5.h>
+#if defined(USE_HASHLIBPP)
+  #include <hl_md5.h>
+#else
+  #include <openssl/md5.h>
+#endif
 
 namespace ORB_SLAM3
 {
@@ -1508,8 +1512,17 @@ bool System::LoadAtlas(int type)
     return false;
 }
 
+
+
+
+
+
 string System::CalculateCheckSum(string filename, int type)
 {
+#if defined(USE_HASHLIBPP)
+    const int MD5_DIGEST_LENGTH = 16;
+#endif
+
     string checksum = "";
 
     unsigned char c[MD5_DIGEST_LENGTH];
@@ -1525,19 +1538,32 @@ string System::CalculateCheckSum(string filename, int type)
         return checksum;
     }
 
+#if defined(USE_HASHLIBPP)
+    MD5 md5;
+    HL_MD5_CTX md5Context;
+    md5.MD5Init(&md5Context);
+#else
     MD5_CTX md5Context;
-    char buffer[1024];
+    MD5_Init(&md5Context);
+#endif
 
-    MD5_Init (&md5Context);
+    char buffer[1024];
     while ( int count = f.readsome(buffer, sizeof(buffer)))
     {
+    #if defined(USE_HASHLIBPP)
+        md5.MD5Update(&md5Context, (unsigned char*)(buffer), count);
+    #else
         MD5_Update(&md5Context, buffer, count);
+    #endif
     }
 
     f.close();
 
+#if defined(USE_HASHLIBPP)
+    md5.MD5Final(c, &md5Context);
+#else
     MD5_Final(c, &md5Context );
-
+#endif
     for(int i = 0; i < MD5_DIGEST_LENGTH; i++)
     {
         char aux[10];

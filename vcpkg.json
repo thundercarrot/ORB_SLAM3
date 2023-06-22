@@ -1,0 +1,13 @@
+{
+  "dependencies": [
+    {
+       "name": "opencv4",
+       "features": [ "tbb", "world" ]
+    },
+    "eigen3",
+    "pangolin",
+    "boost-serialization",
+    "realsense2",
+    "pybind11"
+  ]
+}

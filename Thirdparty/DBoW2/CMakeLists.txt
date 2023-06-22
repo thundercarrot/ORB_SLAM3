@@ -69,4 +69,5 @@ target_link_libraries(${DBOW2_TARGET} PUBLIC ${OpenCV_LIBS})
 # add Boost
 find_package(Boost REQUIRED COMPONENTS serialization)
 message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
-target_link_libraries(${DBOW2_TARGET} PUBLIC ${Boost_LIBRARIES})
+#target_link_libraries(${DBOW2_TARGET} PUBLIC ${Boost_LIBRARIES})
+target_link_libraries(${DBOW2_TARGET} PUBLIC Boost::boost Boost::serialization)

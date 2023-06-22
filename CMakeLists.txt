@@ -11,11 +11,11 @@ message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
 set(CMAKE_DEBUG_POSTFIX "_d")
 
 # Check C++11 support
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_CXX_EXTENSIONS OFF)
 cmake_policy(SET CMP0057 NEW) # enable IN_LIST operator
-if(cxx_std_11 IN_LIST CMAKE_CXX_COMPILE_FEATURES)
+if(cxx_std_17 IN_LIST CMAKE_CXX_COMPILE_FEATURES)
   add_definitions(-DCOMPILEDWITHC11)
 else()
    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
@@ -32,7 +32,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU"
 endif()
 # Compiler specific options for MSVC
 if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3 /bigobj")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3 /bigobj /wd4267 /wd4244")
   # use the static CRT if other libraries are compiled with /MT
   # (CMake sets /MD by default, but for example Pangolin uses /MT by default)
   #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
@@ -212,6 +212,9 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
   target_link_libraries(${PROJECT_NAME} PUBLIC Backward::Backward)
 endif()
 
+# pybind11
+find_package(pybind11 CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE pybind11::embed)
 
 
 # Build examples

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.27)
 project(ORB_SLAM3)
 
 # Build type (default to Release)
@@ -213,6 +213,7 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
 endif()
 
 # pybind11
+find_package(Python COMPONENTS Interpreter Development)
 find_package(pybind11 CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE pybind11::embed)
 

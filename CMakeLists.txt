@@ -213,6 +213,7 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
 endif()
 
 # pybind11
+set(PYBIND11_FINDPYTHON ON) # https://stackoverflow.com/questions/79023970/how-to-solve-conflict-btw-vcpkg-and-pybind11
 find_package(Python COMPONENTS Interpreter Development)
 find_package(pybind11 CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE pybind11::embed)

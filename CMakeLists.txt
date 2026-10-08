@@ -180,7 +180,8 @@ message(STATUS "OpenCV_LIBS: ${OpenCV_LIBS}")
 target_link_libraries(${PROJECT_NAME} PUBLIC ${OpenCV_LIBS})
 
 # Eigen
-find_package(Eigen3 3.1.0 REQUIRED)
+#find_package(Eigen3 3.1.0 REQUIRED)
+find_package(Eigen3 REQUIRED)
 #target_include_directories(${PROJECT_NAME} PRIVATE ${EIGEN3_INCLUDE_DIR})
 message(STATUS "EIGEN3_INCLUDE_DIR: ${EIGEN3_INCLUDE_DIR}")
 message(STATUS "Eigen3_VERSION: ${Eigen3_VERSION}")

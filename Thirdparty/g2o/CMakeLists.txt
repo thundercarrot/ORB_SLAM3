@@ -193,7 +193,8 @@ list(APPEND CMAKE_MODULE_PATH ${G2O_SOURCE_DIR}/cmake_modules)
 
 # Find Eigen3
 set(EIGEN3_INCLUDE_DIR ${G2O_EIGEN3_INCLUDE}) # take hint
-find_package(Eigen3 3.1.0 REQUIRED)
+#find_package(Eigen3 3.1.0 REQUIRED)
+find_package(Eigen3 REQUIRED)
 if(EIGEN3_FOUND)
   set(G2O_EIGEN3_INCLUDE ${EIGEN3_INCLUDE_DIR} CACHE PATH "Directory of Eigen3")
 else()
